@@ -98,4 +98,4 @@ class ColGen:
         self.final_solution = self.MP.print_solution()
         self.final_mip_obj_val = value(self.MP.model.objective)
         self.veh_used = len(self.final_solution)
-        print('Final Obj: ', self.MP.model.objective_value)
+        print('Final Obj: ', self.final_mip_obj_val)
