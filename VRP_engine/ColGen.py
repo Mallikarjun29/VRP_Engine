@@ -2,7 +2,7 @@ from MasterProblem import MasterProblem
 #from SubProblem_mip import SubProblem_mip
 from ShortestPath import ShortestPath
 import time
-
+from pulp import LpStatus, value
 
 class ColGen:
     def __init__(self, num_iters, problem, routes_store, algo, sp_max_depth, sub_iters, ips):
@@ -33,7 +33,7 @@ class ColGen:
             self.MP.formulate_problem()
             # self.MP.write_lp("_lp_{0}.lp".format(iterations))
             self.MP.solve(lp_relaxed=True)
-            obj = self.MP.model.objective_value
+            obj = value(self.MP.model.objective)
             self.MP.ips_stabilization()
 
             num_routes_i = len(self.routes_store.routes)
@@ -96,6 +96,6 @@ class ColGen:
         #self.MP.model.write('_lpfinal.lp')
         self.MP.solve(lp_relaxed=False)
         self.final_solution = self.MP.print_solution()
-        self.final_mip_obj_val = self.MP.model.objective_value
+        self.final_mip_obj_val = value(self.MP.model.objective)
         self.veh_used = len(self.final_solution)
         print('Final Obj: ', self.MP.model.objective_value)
